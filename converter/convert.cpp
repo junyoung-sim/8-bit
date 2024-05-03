@@ -5,32 +5,36 @@
 
 int main(int argc, char *argv[])
 {
-    unsigned int sys0 = std::atoi(argv[1]);
-    unsigned int sys1 = std::atoi(argv[2]);
+    int sys0 = std::atoi(argv[1]);
+    int sys1 = std::atoi(argv[2]);
 
     // decimal to binary
     if(sys0 == 10 && sys1 == 2) {
-        int decimal = std::atoi(argv[3]);
-        int binary[32], i = 32;
-        while(decimal) {
-            binary[--i] = decimal & 1;
-            decimal >>= 1;
+        for(int i = 3; i < argc; i++) {
+            int decimal = std::atoi(argv[i]);
+            int binary[32], k = 32;
+            while(decimal) {
+                binary[--k] = decimal & 1;
+                decimal >>= 1;
+            }
+            for(; k < 32; k++)
+                std::cout << binary[k];
+            std::cout << " ";
         }
-        for(; i < 32; i++)
-            std::cout << binary[i];
-        std::cout << "\n";
     }
 
     // binary to decimal
     else if(sys0 == 2 && sys1 == 10) {
-        int binary = std::atoi(argv[3]);
-        int decimal = 0, power = 0;
-        while(binary) {
-            decimal += (binary % 10 ? 1 << power : 0);
-            binary /= 10;
-            power++;
+        for(int i = 3; i < argc; i++) {
+            int binary = std::atoi(argv[i]);
+            int decimal = 0, power = 0;
+            while(binary) {
+                decimal += (binary % 10 ? 1 << power : 0);
+                binary /= 10;
+                power++;
+            }
+            std::cout << decimal << " ";
         }
-        std::cout << decimal << "\n";
     }
 
     // binary to hex
@@ -41,16 +45,22 @@ int main(int argc, char *argv[])
         hex_dict["1000"] = '8'; hex_dict["1001"] = '9'; hex_dict["1010"] = 'A'; hex_dict["1011"] = 'B';
         hex_dict["1100"] = 'C'; hex_dict["1101"] = 'D'; hex_dict["1110"] = 'E'; hex_dict["1111"] = 'F';
 
-        std::string hex = "";
-        std::string binary = argv[3];
-        for(int i = 0; i < binary.length(); i += 4) {
-            std::string group = binary.substr(i, 4);
-            hex += hex_dict[group];
+        for(int i = 3; i < argc; i++) {
+            std::string hex = "";
+            std::string binary = argv[i];
+            while(binary.length() % 4)
+                binary.insert(0, 1, '0');
+            for(int k = 0; k < binary.length(); k += 4) {
+                std::string group = binary.substr(k, 4);
+                hex += hex_dict[group];
+            }
+            std::cout << hex << " ";
         }
-        std::cout << hex << "\n";
     }
 
     else {}
+
+    std::cout << "\n";
 
     return 0;
 }
