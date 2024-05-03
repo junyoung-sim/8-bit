@@ -5,11 +5,11 @@
 
 int main(int argc, char *argv[])
 {
-    int sys0 = std::atoi(argv[1]);
-    int sys1 = std::atoi(argv[2]);
+    int sys_in = std::atoi(argv[1]);
+    int sys_out = std::atoi(argv[2]);
 
     // decimal to binary
-    if(sys0 == 10 && sys1 == 2) {
+    if(sys_in == 10 && sys_out == 2) {
         for(int i = 3; i < argc; i++) {
             int decimal = std::atoi(argv[i]);
             int binary[32], k = 32;
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     }
 
     // binary to decimal
-    else if(sys0 == 2 && sys1 == 10) {
+    else if(sys_in == 2 && sys_out == 10) {
         for(int i = 3; i < argc; i++) {
             int binary = std::atoi(argv[i]);
             int decimal = 0, power = 0;
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     }
 
     // binary to hex
-    else if(sys0 == 2 && sys1 == 16) {
+    else if(sys_in == 2 && sys_out == 16) {
         std::map<std::string, char> hex_dict;
         hex_dict["0000"] = '0'; hex_dict["0001"] = '1'; hex_dict["0010"] = '2'; hex_dict["0011"] = '3';
         hex_dict["0100"] = '4'; hex_dict["0101"] = '5'; hex_dict["0110"] = '6'; hex_dict["0111"] = '7';
