@@ -5,6 +5,12 @@
 #define EEPROM_D7 12
 #define WRITE_ENABLE 13
 
+// 7 segment anode display
+//byte data[16] = {0x01, 0x4F, 0x12, 0x06, 0x4C, 0x24, 0x20, 0x0F, 0x00, 0x04, 0x08, 0x60, 0x31, 0x42, 0x30, 0x38};
+
+// 7 segment cathode display
+byte data[16] = {0x7E, 0x30, 0x6D, 0x79, 0x33, 0x5B, 0x5F, 0x70, 0x7F, 0x7B, 0x77, 0x1F, 0x4E, 0x3D, 0x4F, 0x47};
+
 // set store register latch when shifting EEPROM address
 void setLatch() {
   digitalWrite(SHIFT_LATCH, LOW);
@@ -71,8 +77,16 @@ void setup() {
   pinMode(WRITE_ENABLE, OUTPUT);
   Serial.begin(57600);
 
-  for(int address = 0; address <= 255; address++)
-    writeEEPROM(address, 0x00);
+  // erase existing contents
+  Serial.println("Erasing EEPROM...");
+  for(int address = 0; address <= 2047; address++)
+    writeEEPROM(address, 0xff);
+
+  // write memory contents
+  Serial.println("Writing to EEPROM...");
+  for(int address = 0; address <= 15; address++)
+    writeEEPROM(address, data[address]);
+
   dump();
 }
 
