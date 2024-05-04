@@ -1,7 +1,7 @@
 Progress Report: https://sites.google.com/icsd.k12.ny.us/comp-eng-wise/blog-entries
 
 **8-bit Computer (as of May 4, 2024)**
-![alt text](https://github.com/junyoung-sim/8-bit/blob/main/res/IMG_8275.jpeg)
+![alt text](https://github.com/junyoung-sim/8-bit/blob/main/res/IMG_8275.jpg)
 
 1) 555 Clock ... DONE
 
