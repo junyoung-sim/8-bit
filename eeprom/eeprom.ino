@@ -6,7 +6,8 @@
 #define WRITE_ENABLE 13
 
 // 7 segment cathode display
-byte data[16] = {0x7e, 0x30, 0x6d, 0x79, 0x33, 0x5b, 0x5f, 0x70, 0x7f, 0x7b, 0x77, 0x1f, 0x4e, 0x3d, 0x4f, 0x47};
+//byte data[16] = {0x7e, 0x30, 0x6d, 0x79, 0x33, 0x5b, 0x5f, 0x70, 0x7f, 0x7b, 0x77, 0x1f, 0x4e, 0x3d, 0x4f, 0x47};
+byte digits[10] = {0x7e, 0x30, 0x6d, 0x79, 0x33, 0x5b, 0x5f, 0x70, 0x7f, 0x7b};
 
 // set store register latch when shifting EEPROM address
 void setLatch() {
@@ -79,10 +80,16 @@ void setup() {
   for(int address = 0; address <= 2047; address++)
     writeEEPROM(address, 0xff);
 
+  // write output display instructions
+  for(int p = 0; p <= 3; p++) {
+    for(int val = 0; val <= 255; val++)
+      writeEEPROM(val + 256 * p, (p != 3 ? digits[(val / (int)pow(10, p)) % 10] : 0));
+  }
+
   // write memory contents
-  Serial.println("Writing to EEPROM...");
+  /*Serial.println("Writing to EEPROM...");
   for(int address = 0; address <= 15; address++)
-    writeEEPROM(address, data[address]);
+    writeEEPROM(address, data[address]);*/
 
   dump();
 }
