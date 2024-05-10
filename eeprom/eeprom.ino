@@ -80,10 +80,19 @@ void setup() {
   for(int address = 0; address <= 2047; address++)
     writeEEPROM(address, 0xff);
 
-  // write output display instructions
+  // output register display instructions
+  Serial.println("Writing output register display instructions...");
   for(int p = 0; p <= 3; p++) {
     for(int val = 0; val <= 255; val++)
       writeEEPROM(val + 256 * p, (p != 3 ? digits[(val / (int)pow(10, p)) % 10] : 0));
+  }
+  for(int p = 4; p <= 7; p++) {
+    for(int val = -128; val <= 127; val++) {
+      if(p < 7)
+        writeEEPROM((byte)val + 256 * p, digits[(abs(val) / (int)pow(10, p-4)) % 10]);
+      else
+        writeEEPROM((byte)val + 256 * p, (val < 0 ? 0x01 : 0));
+    }
   }
 
   // write memory contents
