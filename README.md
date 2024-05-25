@@ -1,26 +1,7 @@
-Progress Report: https://sites.google.com/icsd.k12.ny.us/comp-eng-wise/blog-entries
+**Counting w/ Manual Control Logic (25/05/24)**
 
-**8-bit Computer (as of May 4, 2024)**
-![alt text](https://github.com/junyoung-sim/8-bit/blob/main/res/IMG_8275.jpg)
+![alt text](https://youtu.be/cGufHGSTiuM)
 
-1) 555 Clock ... DONE
+**Testing the ALU (10/04/24)**
 
-2) 8-bit Registers ... DONE
-
-3) Arithmetic Logic Unit ... DONE
-
-4) RAM (16 bytes) ... DONE
-
-5) Program Counter ... DONE
-
-6) EEPROM Programmer ... DONE
-
-7) Output Register ... IN PROGRESS
-
-8) Bus Connections ... IN PROGRESS
-
-9) CPU Control Logic ... IN PROGRESS
-
-
-**Arduino Nano EEPROM Programmer**
-![alt text](https://github.com/junyoung-sim/8-bit/blob/main/res/IMG_8254.jpg)
+![alt text](https://youtu.be/OblWvOqAwRo)
