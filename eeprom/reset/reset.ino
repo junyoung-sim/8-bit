@@ -5,18 +5,12 @@
 #define EEPROM_D7 12
 #define WRITE_ENABLE 13
 
-// 7 segment cathode display
-//byte data[16] = {0x7e, 0x30, 0x6d, 0x79, 0x33, 0x5b, 0x5f, 0x70, 0x7f, 0x7b, 0x77, 0x1f, 0x4e, 0x3d, 0x4f, 0x47};
-byte digits[10] = {0x7e, 0x30, 0x6d, 0x79, 0x33, 0x5b, 0x5f, 0x70, 0x7f, 0x7b};
-
-// set store register latch when shifting EEPROM address
 void setLatch() {
   digitalWrite(SHIFT_LATCH, LOW);
   digitalWrite(SHIFT_LATCH, HIGH);
   digitalWrite(SHIFT_LATCH, LOW);
 }
 
-// pulse write enable when writing to EEPROM
 void writeEnable() {
   digitalWrite(WRITE_ENABLE, LOW);
   delayMicroseconds(1);
@@ -24,7 +18,6 @@ void writeEnable() {
   delay(1);
 }
 
-// insert EEPROM address to shift register
 void setAddress(int address, bool outputEnable) {
   shiftOut(SHIFT_DATA, SHIFT_CLOCK, MSBFIRST, (address >> 8) | (outputEnable ? 0x00 : 0x80));
   shiftOut(SHIFT_DATA, SHIFT_CLOCK, MSBFIRST, address);
@@ -51,7 +44,6 @@ void writeEEPROM(int address, byte data) {
   writeEnable();
 }
 
-// display EEPROM contents in hex (16 bytes per row)
 void dump() {
   for(int base = 0; base <= 255; base += 16) {
     byte data[16];
@@ -78,28 +70,8 @@ void setup() {
   // erase existing contents
   Serial.println("Erasing EEPROM...");
   for(int address = 0; address <= 2047; address++)
-    writeEEPROM(address, 0xff);
-
-  // output register display instructions
-  Serial.println("Writing output register display instructions...");
-  for(int p = 0; p <= 3; p++) {
-    for(int val = 0; val <= 255; val++) {
-      if(p < 3) writeEEPROM(val + 256 * p, digits[(val / (int)pow(10, p)) % 10]);
-      else writeEEPROM(val + 256 * p, 0x00);
-    }
-  }
-  for(int p = 4; p <= 7; p++) {
-    for(int val = -128; val <= 127; val++) {
-      if(p < 7) writeEEPROM((byte)val + 256 * p, digits[(abs(val) / (int)pow(10, p-4)) % 10]);
-      else writeEEPROM((byte)val + 256 * p, (val < 0 ? 0x01 : 0x00));
-    }
-  }
-
-  // write memory contents
-  /*Serial.println("Writing to EEPROM...");
-  for(int address = 0; address <= 15; address++)
-    writeEEPROM(address, data[address]);*/
-
+    writeEEPROM(address, 0x00);
+  
   dump();
 }
 
