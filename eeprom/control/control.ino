@@ -20,25 +20,44 @@
 #define CE  0b0000000000001000 // Program Counter (ENABLE)
 #define CJ  0b0000000000000100 // Program Counter (JUMP)
 #define CO  0b0000000000000010 // Program Counter (OUT)
+#define FI  0b0000000000000001 // Flags Register (IN)
 
-uint16_t data[] = {
-  CO|MI, RO|II|CE, 0,      0,     0,        0,0,0, // NOP (0000)
-  CO|MI, RO|II|CE, IO|MI,  RO|AI, 0,        0,0,0, // LDA (0001)
-  CO|MI, RO|II|CE, IO|MI,  RO|BI, EO|AI,    0,0,0, // ADD (0010)
-  CO|MI, RO|II|CE, IO|MI,  RO|BI, EO|AI|SU, 0,0,0, // SUB (0011)
-  CO|MI, RO|II|CE, IO|MI,  AO|RI, 0,        0,0,0, // STA (0100)
-  CO|MI, RO|II|CE, IO|AI,  0,     0,        0,0,0, // LDI (0101)
-  CO|MI, RO|II|CE, IO|CJ,  0,     0,        0,0,0, // JMP (0110)
-  CO|MI, RO|II|CE, 0,      0,     0,        0,0,0, // NOP (0111)
-  CO|MI, RO|II|CE, 0,      0,     0,        0,0,0, // NOP (1000)
-  CO|MI, RO|II|CE, 0,      0,     0,        0,0,0, // NOP (1001)
-  CO|MI, RO|II|CE, 0,      0,     0,        0,0,0, // NOP (1010)
-  CO|MI, RO|II|CE, 0,      0,     0,        0,0,0, // NOP (1011)
-  CO|MI, RO|II|CE, 0,      0,     0,        0,0,0, // NOP (1100)
-  CO|MI, RO|II|CE, 0,      0,     0,        0,0,0, // NOP (1101)
-  CO|MI, RO|II|CE, AO|OUT, 0,     0,        0,0,0, // OUT (1110)
-  CO|MI, RO|II|CE, HLT,    0,     0,        0,0,0, // HLT (1111)
+// Flags Register Combinations (Zero & Carry)
+#define ZC00 0
+#define ZC01 1
+#define ZC10 2
+#define ZC11 3
+
+#define JC 0b0111
+#define JZ 0b1000
+
+const PROGMEM uint16_t UCODE_TEMPLATE[16][8] = {
+  { CO|MI, RO|II|CE, 0,      0,     0,           0,0,0 }, // NOP (0000)
+  { CO|MI, RO|II|CE, IO|MI,  RO|AI, 0,           0,0,0 }, // LDA (0001)
+  { CO|MI, RO|II|CE, IO|MI,  RO|BI, EO|AI|FI,    0,0,0 }, // ADD (0010)
+  { CO|MI, RO|II|CE, IO|MI,  RO|BI, EO|AI|SU|FI, 0,0,0 }, // SUB (0011)
+  { CO|MI, RO|II|CE, IO|MI,  AO|RI, 0,           0,0,0 }, // STA (0100)
+  { CO|MI, RO|II|CE, IO|AI,  0,     0,           0,0,0 }, // LDI (0101)
+  { CO|MI, RO|II|CE, IO|CJ,  0,     0,           0,0,0 }, // JMP (0110)
+  { CO|MI, RO|II|CE, 0,      0,     0,           0,0,0 }, // JC  (0111)
+  { CO|MI, RO|II|CE, 0,      0,     0,           0,0,0 }, // JZ  (1000)
+  { CO|MI, RO|II|CE, 0,      0,     0,           0,0,0 }, // NOP (1001)
+  { CO|MI, RO|II|CE, 0,      0,     0,           0,0,0 }, // NOP (1010)
+  { CO|MI, RO|II|CE, 0,      0,     0,           0,0,0 }, // NOP (1011)
+  { CO|MI, RO|II|CE, 0,      0,     0,           0,0,0 }, // NOP (1100)
+  { CO|MI, RO|II|CE, 0,      0,     0,           0,0,0 }, // NOP (1101)
+  { CO|MI, RO|II|CE, AO|OUT, 0,     0,           0,0,0 }, // OUT (1110)
+  { CO|MI, RO|II|CE, HLT,    0,     0,           0,0,0 }, // HLT (1111)
 };
+
+uint16_t ucode[4][16][8];
+
+void initUCode() {
+  memcpy_P(ucode[ZC00], UCODE_TEMPLATE, sizeof(UCODE_TEMPLATE));
+  memcpy_P(ucode[ZC01], UCODE_TEMPLATE, sizeof(UCODE_TEMPLATE)); ucode[ZC01][JC][2] = IO|CJ;
+  memcpy_P(ucode[ZC10], UCODE_TEMPLATE, sizeof(UCODE_TEMPLATE)); ucode[ZC10][JZ][2] = IO|CJ;
+  memcpy_P(ucode[ZC11], UCODE_TEMPLATE, sizeof(UCODE_TEMPLATE)); ucode[ZC11][JC][2] = ucode[ZC11][JZ][2] = IO|CJ;
+}
 
 void setLatch() {
   digitalWrite(SHIFT_LATCH, LOW);
@@ -79,8 +98,8 @@ void writeEEPROM(int address, byte data) {
   writeEnable();
 }
 
-void dump() {
-  for(int base = 0; base <= 255; base += 16) {
+void dump(int start, int length) {
+  for(int base = start; base < length; base += 16) {
     byte data[16];
     for(int offset = 0; offset <= 15; offset++)
       data[offset] = readEEPROM(base + offset);
@@ -95,6 +114,7 @@ void dump() {
 }
 
 void setup() {
+  initUCode();
   pinMode(SHIFT_DATA, OUTPUT);
   pinMode(SHIFT_CLOCK, OUTPUT);
   pinMode(SHIFT_LATCH, OUTPUT);
@@ -107,12 +127,18 @@ void setup() {
     writeEEPROM(address, 0x00);
 
   Serial.println("Programming EEPROM...");
-  for(int address = 0; address < sizeof(data) / sizeof(data[0]); address++) {
-    writeEEPROM(address, data[address] >> 8); // left
-    writeEEPROM(address + 128, data[address]); // right
+  for(int address = 0; address < 1024; address++) {
+    int flags       = (address & 0b1100000000) >> 8;
+    int byte_select = (address & 0b0010000000) >> 7;
+    int instruction = (address & 0b0001111000) >> 3;
+    int step        = (address & 0b0000000111);
+    if(byte_select)
+      writeEEPROM(address, ucode[flags][instruction][step]);
+    else
+      writeEEPROM(address, ucode[flags][instruction][step] >> 8);
   }
 
-  dump();
+  dump(0, 1024);
 }
 
 void loop() {}
