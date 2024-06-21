@@ -1,3 +1,7 @@
+**Counting w/ Conditional Jumps (Carry & Zero)**
+
+https://youtu.be/w5fmc0aoqj8
+
 **Counting Program w/ EEPROM Control Logic (02/06/24)**
 
 https://youtu.be/Gm3HwKCBr_c
