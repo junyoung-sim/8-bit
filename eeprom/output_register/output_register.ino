@@ -78,7 +78,7 @@ void setup() {
   // erase existing contents
   Serial.println("Erasing EEPROM...");
   for(int address = 0; address <= 2047; address++)
-    writeEEPROM(address, 0xff);
+    writeEEPROM(address, 0x00);
 
   // output register display instructions
   Serial.println("Writing output register display instructions...");

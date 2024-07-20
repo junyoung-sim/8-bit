@@ -1,4 +1,4 @@
-**Counting w/ Conditional Jumps (Carry & Zero)**
+**Counting w/ Jump Carry & Zero Conditional Jumps (20/06/24)**
 
 https://youtu.be/w5fmc0aoqj8
 
