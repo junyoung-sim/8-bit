@@ -29,6 +29,19 @@ This is a von Neumann 8-bit breadboard computer with:
 | CO | Progarm Counter (Out) |
 | FI | Flags Register (IN) |
 
+| Instruction | Function | Control Sequence |
+| NOP (0000 0000) | No operation | (CO MI) (RO II CE) |
+| LDA (0001 xxxx) | Load register A with contents in xxxx | (CO MI) (RO II CE) (IO MI) (RO AI) |
+| ADD (0010 xxxx) | Add contents in register A and xxxx | (CO MI) (RO II CE) (IO MI) (RO BI) (EO AI FI) |
+| SUB (0011 xxxx) | Subtract contents in register A and xxxx | (CO MI) (RO II CE) (IO MI) (RO BI) (EO AI SU FI) |
+| STA (0100 xxxx) | Store contents in register A at xxxx | (CO MI) (RO II CE) (IO MI) (AO RI) |
+| LDI (0101 xxxx) | Immediately load xxxx to register A | (CO MI) (RO II CE) (IO MI) (IO AI) |
+| JMP (0110 xxxx) | Jump to program stored in xxxx | (CO MI) (RO II CE) (IO MI) (IO CJ) |
+| JC  (0111 xxxx) | Jump to program stored in xxxx if carry flag is set | (CO MI) (RO II CE) (IO MI) (IO CJ)* |
+| JZ  (1000 xxxx) | Jump to program stored in xxxx if zero flag is set | (CO MI) (RO II CE) (IO MI) (IO CJ)* |
+| OUT (1110 0000) | Dump register A contents to output register | (CO MI) (RO II CE) (IO MI) (AO OUT) |
+| HLT (1111 0000) | Halt clock signal | (CO MI) (RO II CE) (IO MI) (HLT) |
+
 | Program | Date | YouTube |
 | --- | --- | --- |
 | Fibonacci Sequence | 07/24/24 | https://youtu.be/Rl5dPWCrEBQ |
