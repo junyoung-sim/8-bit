@@ -30,6 +30,7 @@ This is a von Neumann 8-bit breadboard computer with:
 | FI | Flags Register (IN) |
 
 | Instruction | Function | Control Sequence |
+| --- | --- | --- |
 | NOP (0000 0000) | No operation | (CO MI) (RO II CE) |
 | LDA (0001 xxxx) | Load register A with contents in xxxx | (CO MI) (RO II CE) (IO MI) (RO AI) |
 | ADD (0010 xxxx) | Add contents in register A and xxxx | (CO MI) (RO II CE) (IO MI) (RO BI) (EO AI FI) |
@@ -53,4 +54,4 @@ This is a von Neumann 8-bit breadboard computer with:
 | Counting w/ Manual Control Logic | 05/25/24 | https://youtu.be/cGufHGSTiuM |
 | Testing the ALU | 04/10/24 | https://youtu.be/OblWvOqAwRo |
 
-![alt text]()
+![alt text](https://github.com/junyoung-sim/8-bit/blob/main/SIM-8%20PROGRAMS%20(JULY%202024).pdf)
