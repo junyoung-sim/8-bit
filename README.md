@@ -54,4 +54,4 @@ This is a von Neumann 8-bit breadboard computer with:
 | Counting w/ Manual Control Logic | 05/25/24 | https://youtu.be/cGufHGSTiuM |
 | Testing the ALU | 04/10/24 | https://youtu.be/OblWvOqAwRo |
 
-![SIM-8 PROGRAMS (pdf)](https://github.com/junyoung-sim/8-bit/blob/main/SIM-8%20PROGRAMS%20(JULY%202024).pdf)
+![SIM-8 PROGRAMS (JULY 2024).pdf](https://github.com/junyoung-sim/8-bit/blob/main/SIM-8%20PROGRAMS%20(JULY%202024).pdf)
