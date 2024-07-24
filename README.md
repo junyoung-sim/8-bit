@@ -52,3 +52,5 @@ This is a von Neumann 8-bit breadboard computer with:
 | Addition & Subtraction | 06/01/24 | https://youtu.be/H69gBVl0mco |
 | Counting w/ Manual Control Logic | 05/25/24 | https://youtu.be/cGufHGSTiuM |
 | Testing the ALU | 04/10/24 | https://youtu.be/OblWvOqAwRo |
+
+![alt text]()
