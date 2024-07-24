@@ -31,17 +31,17 @@ This is a von Neumann 8-bit breadboard computer with:
 
 | Instruction | Function | Control Sequence |
 | --- | --- | --- |
-| NOP (0000 0000) | No operation | (CO MI) (RO II CE) |
-| LDA (0001 xxxx) | Load register A with contents in xxxx | (CO MI) (RO II CE) (IO MI) (RO AI) |
-| ADD (0010 xxxx) | Add contents in register A and xxxx | (CO MI) (RO II CE) (IO MI) (RO BI) (EO AI FI) |
-| SUB (0011 xxxx) | Subtract contents in register A and xxxx | (CO MI) (RO II CE) (IO MI) (RO BI) (EO AI SU FI) |
-| STA (0100 xxxx) | Store contents in register A at xxxx | (CO MI) (RO II CE) (IO MI) (AO RI) |
-| LDI (0101 xxxx) | Immediately load xxxx to register A | (CO MI) (RO II CE) (IO MI) (IO AI) |
-| JMP (0110 xxxx) | Jump to program stored in xxxx | (CO MI) (RO II CE) (IO MI) (IO CJ) |
-| JC  (0111 xxxx) | Jump to program stored in xxxx if carry flag is set | (CO MI) (RO II CE) (IO MI) (IO CJ)* |
-| JZ  (1000 xxxx) | Jump to program stored in xxxx if zero flag is set | (CO MI) (RO II CE) (IO MI) (IO CJ)* |
-| OUT (1110 0000) | Dump register A contents to output register | (CO MI) (RO II CE) (IO MI) (AO OUT) |
-| HLT (1111 0000) | Halt clock signal | (CO MI) (RO II CE) (IO MI) (HLT) |
+| NOP | No operation | (CO MI) (RO II CE) |
+| LDA | Load register A with contents in xxxx | (CO MI) (RO II CE) (IO MI) (RO AI) |
+| ADD | Add contents in register A and xxxx | (CO MI) (RO II CE) (IO MI) (RO BI) (EO AI FI) |
+| SUB | Subtract contents in register A and xxxx | (CO MI) (RO II CE) (IO MI) (RO BI) (EO AI SU FI) |
+| STA | Store contents in register A at xxxx | (CO MI) (RO II CE) (IO MI) (AO RI) |
+| LDI | Immediately load xxxx to register A | (CO MI) (RO II CE) (IO MI) (IO AI) |
+| JMP | Jump to program stored in xxxx | (CO MI) (RO II CE) (IO MI) (IO CJ) |
+| JC  | Jump to program stored in xxxx if carry flag is set | (CO MI) (RO II CE) (IO MI) (IO CJ)* |
+| JZ  | Jump to program stored in xxxx if zero flag is set | (CO MI) (RO II CE) (IO MI) (IO CJ)* |
+| OUT | Dump register A contents to output register | (CO MI) (RO II CE) (IO MI) (AO OUT) |
+| HLT | Halt clock signal | (CO MI) (RO II CE) (IO MI) (HLT) |
 
 | Program | Date | YouTube |
 | --- | --- | --- |
@@ -54,4 +54,4 @@ This is a von Neumann 8-bit breadboard computer with:
 | Counting w/ Manual Control Logic | 05/25/24 | https://youtu.be/cGufHGSTiuM |
 | Testing the ALU | 04/10/24 | https://youtu.be/OblWvOqAwRo |
 
-![alt text](https://github.com/junyoung-sim/8-bit/blob/main/SIM-8%20PROGRAMS%20(JULY%202024).pdf)
+![SIM-8 PROGRAMS (pdf)](https://github.com/junyoung-sim/8-bit/blob/main/SIM-8%20PROGRAMS%20(JULY%202024).pdf)
